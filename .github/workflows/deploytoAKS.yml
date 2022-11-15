@@ -18,8 +18,8 @@ jobs:
       with:
         # Version range or exact version of Python or PyPy to use, using SemVer's version range syntax. Reads from .python-version if unset.
         python-version: 3.8.x
-    - name: python build
-      run: python build -c release
+#     - name: python build
+#       run: python build -c release
       
     - name: docker build
       run: docker build -t testrepo:'${{github.sha}}'
