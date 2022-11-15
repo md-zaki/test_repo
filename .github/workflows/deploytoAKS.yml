@@ -22,7 +22,7 @@ jobs:
 #       run: python build -c release
       
     - name: docker build
-      run: docker build -t testrepo:'${{github.sha}}'
+      run: docker build --pull --rm -f "dockerfile" -t testrepo:'${{github.sha}}' "."
       
     - name: Azure Container Registry Login
       uses: Azure/docker-login@v1
