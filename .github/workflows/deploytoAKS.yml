@@ -39,3 +39,37 @@ jobs:
       
     - name: push docker image
       run: docker push testacrzaki.azurecr.io/testrepo:'${{github.sha}}'
+      
+    - name: Azure Kubernetes set context
+      uses: Azure/aks-set-context@v3
+      with:
+        # Resource Group Name
+        resource-group: testgroup
+        # AKS Cluster Name
+        cluster-name: testcluster
+        # AKS Cluster Subscription
+        
+    - name: Create secret in Kubernetes cluster
+      uses: Azure/k8s-create-secret@v3.0
+      with:
+        secret-name: docker-image-pull-request
+        # Container Registry URL
+        container-registry-url: testacrzaki.azurecr.io
+        # Container Registry user name
+        container-registry-username: testacrzaki
+        # Container Registry password
+        container-registry-password: ND4ZyHYBJP=eVgbnGIEIvl49J=p4UVMs
+        secret-type: acr-registry
+        
+    - name: Deploy to Kubernetes cluster
+      uses: Azure/k8s-deploy@v4
+      with:
+        # Path to the manifest files which will be used for deployment.
+        manifests: k8s/deployment.yml
+        # Fully qualified resource URL of the image(s) to be used for substitutions on the manifest files Example: contosodemo.azurecr.io/helloworld:test
+        images: testacrzaki.azurecr.io/testrepo:'${{github.sha}}'
+        # Name of a docker-registry secret that has already been set up within the cluster. Each of these secret names are added under imagePullSecrets field for the workloads found in the input manifest files
+        imagepullsecrets: docker-image-pull-request
+        # deploy, promote, or reject
+        action: deploy
+ 
