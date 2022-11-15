@@ -48,6 +48,7 @@ jobs:
         # AKS Cluster Name
         cluster-name: testcluster
         # AKS Cluster Subscription
+        admin: true
         
     - name: Create secret in Kubernetes cluster
       uses: Azure/k8s-create-secret@v3.0
