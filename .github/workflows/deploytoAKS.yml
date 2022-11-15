@@ -32,7 +32,7 @@ jobs:
         # Container registry password
         password: ND4ZyHYBJP=eVgbnGIEIvl49J=p4UVMs
         # Container registry server url
-        login-server: https://index.docker.io/v1/
+        login-server: testacrzaki.azurecr.io
         
     - name: tag docker image
       run: docker tag testrepo:'${{github.sha}}' testacrzaki.azurecr.io/testrepo:'${{github.sha}}'
